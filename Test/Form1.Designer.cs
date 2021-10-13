@@ -30,8 +30,8 @@ namespace Test
         private void InitializeComponent()
         {
             this.containerControl1 = new MyMax.WinformsBootstrap.Controls.ContainerControl();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonControl1 = new MyMax.WinformsBootstrap.Controls.ButtonControl();
+            this.buttonControl2 = new MyMax.WinformsBootstrap.Controls.ButtonControl();
             this.containerControl1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,35 +44,61 @@ namespace Test
             this.containerControl1.ContentResize = false;
             this.containerControl1.ControlAlignment = MyMax.WinformsBootstrap.Controls.ContainerControl.ControlAlignments.RightOrBottom;
             this.containerControl1.ControlOrder = MyMax.WinformsBootstrap.Controls.ContainerControl.ControlOrders.Design;
-            this.containerControl1.Controls.Add(this.button2);
-            this.containerControl1.Controls.Add(this.button1);
+            this.containerControl1.Controls.Add(this.buttonControl2);
+            this.containerControl1.Controls.Add(this.buttonControl1);
             this.containerControl1.DockedControls = true;
             this.containerControl1.FlowDirection = MyMax.WinformsBootstrap.Controls.ContainerControl.FlowDirections.Horizontal;
             this.containerControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.containerControl1.ForeColor = System.Drawing.Color.Black;
-            this.containerControl1.Location = new System.Drawing.Point(144, 108);
+            this.containerControl1.Location = new System.Drawing.Point(53, 41);
             this.containerControl1.Name = "containerControl1";
             this.containerControl1.Padding = new System.Windows.Forms.Padding(3);
-            this.containerControl1.Size = new System.Drawing.Size(294, 159);
+            this.containerControl1.Size = new System.Drawing.Size(340, 159);
             this.containerControl1.TabIndex = 0;
             // 
-            // button2
+            // buttonControl1
             // 
-            this.button2.Location = new System.Drawing.Point(87, 70);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(161, 80);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(109)))), ((int)(((byte)(253)))));
+            this.buttonControl1.BorderColor = System.Drawing.Color.Black;
+            this.buttonControl1.BorderRadius = 5;
+            this.buttonControl1.BorderSize = 0;
+            this.buttonControl1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonControl1.FlatAppearance.BorderSize = 0;
+            this.buttonControl1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonControl1.ForeColor = System.Drawing.Color.White;
+            this.buttonControl1.IconColor = System.Drawing.Color.Black;
+            this.buttonControl1.IconName = FontAwesome.Sharp.IconChar.None;
+            this.buttonControl1.IconSize = 16;
+            this.buttonControl1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonControl1.Location = new System.Drawing.Point(6, 82);
+            this.buttonControl1.Name = "buttonControl1";
+            this.buttonControl1.Size = new System.Drawing.Size(150, 68);
+            this.buttonControl1.Style = MyMax.WinformsBootstrap.Controls.Styles.Primary;
+            this.buttonControl1.TabIndex = 0;
+            this.buttonControl1.Text = "buttonControl1";
+            this.buttonControl1.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // buttonControl2
             // 
-            this.button1.Location = new System.Drawing.Point(6, 105);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 45);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonControl2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(109)))), ((int)(((byte)(253)))));
+            this.buttonControl2.BorderColor = System.Drawing.Color.Black;
+            this.buttonControl2.BorderRadius = 5;
+            this.buttonControl2.BorderSize = 0;
+            this.buttonControl2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonControl2.FlatAppearance.BorderSize = 0;
+            this.buttonControl2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonControl2.ForeColor = System.Drawing.Color.White;
+            this.buttonControl2.IconColor = System.Drawing.Color.Black;
+            this.buttonControl2.IconName = FontAwesome.Sharp.IconChar.None;
+            this.buttonControl2.IconSize = 16;
+            this.buttonControl2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonControl2.Location = new System.Drawing.Point(162, 110);
+            this.buttonControl2.Name = "buttonControl2";
+            this.buttonControl2.Size = new System.Drawing.Size(101, 40);
+            this.buttonControl2.Style = MyMax.WinformsBootstrap.Controls.Styles.Primary;
+            this.buttonControl2.TabIndex = 1;
+            this.buttonControl2.Text = "buttonControl2";
+            this.buttonControl2.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -90,8 +116,8 @@ namespace Test
         #endregion
 
         private MyMax.WinformsBootstrap.Controls.ContainerControl containerControl1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private MyMax.WinformsBootstrap.Controls.ButtonControl buttonControl2;
+        private MyMax.WinformsBootstrap.Controls.ButtonControl buttonControl1;
     }
 }
 
