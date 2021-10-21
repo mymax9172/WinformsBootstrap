@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\BorderRadius.cs" />
     <Compile Include="Controls\ButtonControl.cs">
       <SubType>Component</SubType>
     </Compile>

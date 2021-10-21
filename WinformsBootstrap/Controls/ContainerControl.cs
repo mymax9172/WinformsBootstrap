@@ -19,14 +19,16 @@ namespace MyMax.WinformsBootstrap.Controls
         #region Internal member
 
         private bool contentResize = false;
-        private int borderSize = 0;
-        private int borderRadius = 10;
+        private int borderSize;
         private Color borderColor = Color.Black;
+
         private ControlOrders controlOrder = ControlOrders.Design;
         private FlowDirections flowDirection = FlowDirections.Vertical;
         private ControlAlignments controlAlignment = ControlAlignments.LeftOrTop;
         private UIContainerFlowLayout layoutEngine;
         private bool dockedControls = true;
+
+        private BorderRadius borderRadius;
 
         #endregion
 
@@ -96,7 +98,7 @@ namespace MyMax.WinformsBootstrap.Controls
             get { return contentResize; }
             set
             {
-                if (!dockedControls) 
+                if (!dockedControls)
                     contentResize = false;
                 else
                     contentResize = value;
@@ -122,13 +124,18 @@ namespace MyMax.WinformsBootstrap.Controls
                 }
             }
         }
+        // [TypeConverter(typeof(BorderRadius))]
 
         /// <summary>
         /// Border radius of the container
         /// </summary>
         [Category("Winforms Bootstrap")]
-        [Description("Radius of the border")]
-        public int BorderRadius
+        [Description("Radius of the border corners")]
+        [TypeConverter(typeof(System.ComponentModel.ExpandableObjectConverter))]
+        //[TypeConverter(typeof(BorderRadius))]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Browsable(true)]
+        public BorderRadius BorderRadius
         {
             get { return borderRadius; }
             set
@@ -209,40 +216,57 @@ namespace MyMax.WinformsBootstrap.Controls
             Size = new Size(150, 40);
             BackColor = DefaultStyles.ContainerBackcolor;
             ForeColor = DefaultStyles.ContainerForecolor;
-            Resize += new EventHandler(Panel_Resize);
             Margin = new Padding(3);
             Padding = new Padding(3);
+            BorderRadius = new BorderRadius() { All = 5 };
             Font = new Font("Segoe UI", 8, FontStyle.Regular);
-        }
-
-        /// <summary>
-        /// Listen resize event and adjust border radius
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Panel_Resize(object sender, EventArgs e)
-        {
-            if (borderRadius > this.Height)
-                borderRadius = this.Height;
-            Refresh();
         }
 
         /// <summary>
         /// Create a rounded figure path
         /// </summary>
         /// <param name="rect"></param>
-        /// <param name="radius"></param>
         /// <returns></returns>
-        private GraphicsPath GetFigurePath(Rectangle rect, float radius)
+        private GraphicsPath GetFigurePath(Rectangle rect)
         {
             GraphicsPath path = new GraphicsPath();
-            float curveSize = radius * 2F;
+            float factor = 2F; 
+
             path.StartFigure();
-            path.AddArc(rect.X, rect.Y, curveSize, curveSize, 180, 90);
-            path.AddArc(rect.Right - curveSize, rect.Y, curveSize, curveSize, 270, 90);
-            path.AddArc(rect.Right - curveSize, rect.Bottom - curveSize, curveSize, curveSize, 0, 90);
-            path.AddArc(rect.X, rect.Bottom - curveSize, curveSize, curveSize, 90, 90);
+            if (BorderRadius.TopLeft > 0)
+            {
+                float curveSize = BorderRadius.TopLeft * factor;
+                path.AddArc(rect.X, rect.Y, curveSize, curveSize, 180, 90);
+            } 
+            else
+                path.AddLine(new PointF(rect.X, rect.Y), new PointF(rect.X, rect.Y));
+
+            if (BorderRadius.TopRight > 0)
+            {
+                float curveSize = BorderRadius.TopRight * factor;
+                path.AddArc(rect.Right - curveSize, rect.Y, curveSize, curveSize, 270, 90);
+            }
+            else
+                path.AddLine(new PointF(rect.Right, rect.Y), new PointF(rect.Right, rect.Y));
+
+            if (BorderRadius.BottomRight > 0)
+            {
+                float curveSize = BorderRadius.BottomRight * factor;
+                path.AddArc(rect.Right - curveSize, rect.Bottom - curveSize, curveSize, curveSize, 0, 90);
+            }
+            else
+                path.AddLine(new PointF(rect.Right, rect.Bottom), new PointF(rect.Right, rect.Bottom));
+
+            if (BorderRadius.BottomLeft >= 0)
+            {
+                float curveSize = BorderRadius.BottomLeft * factor;
+                path.AddArc(rect.X, rect.Bottom - curveSize, curveSize, curveSize, 90, 90);
+            }
+            else
+                path.AddLine(new PointF(rect.X, rect.Bottom), new PointF(rect.X, rect.Bottom));
+
             path.CloseFigure();
+    
             return path;
         }
 
@@ -256,40 +280,19 @@ namespace MyMax.WinformsBootstrap.Controls
             if (borderSize > 0)
                 smoothSize = borderSize;
 
-            if (borderRadius > 2) //Rounded border
-            {
-                using (GraphicsPath pathSurface = GetFigurePath(rectSurface, borderRadius))
-                using (GraphicsPath pathBorder = GetFigurePath(rectBorder, borderRadius - borderSize))
-                using (Pen penSurface = new Pen(this.Parent.BackColor, smoothSize))
-                using (Pen penBorder = new Pen(borderColor, borderSize))
-                {
-                    pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                    // Panel surface
-                    Region = new Region(pathSurface);
-                    //Draw surface border for HD result
-                    pevent.Graphics.DrawPath(penSurface, pathSurface);
 
-                    // Panel border                    
-                    if (borderSize >= 1)
-                        //Draw control border
-                        pevent.Graphics.DrawPath(penBorder, pathBorder);
-                }
-            }
-            else //Squared border
+            using (GraphicsPath pathSurface = GetFigurePath(rectSurface))
+            using (GraphicsPath pathBorder = GetFigurePath(rectBorder))
+            using (Pen penSurface = new Pen(this.Parent.BackColor, smoothSize))
+            using (Pen penBorder = new Pen(borderColor, borderSize))
             {
-                pevent.Graphics.SmoothingMode = SmoothingMode.None;
-                // Panel surface
-                Region = new Region(rectSurface);
-                // Panel border
+                pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                Region = new Region(pathSurface);
+                pevent.Graphics.DrawPath(penSurface, pathSurface);                   
                 if (borderSize >= 1)
-                {
-                    using (Pen penBorder = new Pen(borderColor, borderSize))
-                    {
-                        penBorder.Alignment = PenAlignment.Inset;
-                        pevent.Graphics.DrawRectangle(penBorder, 0, 0, Width - 1, Height - 1);
-                    }
-                }
+                    pevent.Graphics.DrawPath(penBorder, pathBorder);
             }
+
         }
 
         protected override void OnHandleCreated(EventArgs e)

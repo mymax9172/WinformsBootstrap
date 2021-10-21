@@ -12,7 +12,7 @@ namespace MyMax.WinformsBootstrap
     /// </summary>
     public static class DefaultStyles
     {
-        public static Color ContainerBackcolor { get; set; } = Color.Blue;
+        public static Color ContainerBackcolor { get; set; } = Color.WhiteSmoke;
         public static Color ContainerForecolor { get; set; } = Color.Black;
     }
 }

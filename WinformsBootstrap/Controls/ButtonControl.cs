@@ -31,13 +31,8 @@ namespace MyMax.WinformsBootstrap.Controls
     {
         // Internal members
         int borderSize = 0;
-        int borderRadius = 5;
-
-        int topleftBorderRadius = 5;
-        int toprighttBorderRadius = 5;
-        int bottomleftBorderRadius = 5;
-        int bottomrightBorderRadius = 5;
-        bool useDifferentRadius = false;
+        private BorderRadius borderRadius;
+        bool solid = true;
 
         Color borderColor = Color.Black;
         Styles style;
@@ -52,7 +47,6 @@ namespace MyMax.WinformsBootstrap.Controls
             public Color ForeColor { get; set; }
         }
 
-
         protected override bool ShowFocusCues
         {
             get
@@ -60,6 +54,9 @@ namespace MyMax.WinformsBootstrap.Controls
                 return false;
             }
         }
+
+        #region Properties
+
         /// <summary>
         /// Color of the icon
         /// </summary>
@@ -131,20 +128,33 @@ namespace MyMax.WinformsBootstrap.Controls
             }
         }
 
+
         [Category("Winforms Bootstrap")]
-        [Description("Radius of the border")]
-        public int BorderRadius
+        [Description("Solid or outline look and feel")]
+        public bool Solid
+        {
+            get { return solid; }
+            set
+            {
+                solid = value;
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Border radius of the control
+        /// </summary>
+        [Category("Winforms Bootstrap")]
+        [Description("Radius of the border corners")]
+        [TypeConverter(typeof(System.ComponentModel.ExpandableObjectConverter))]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Browsable(true)]
+        public BorderRadius BorderRadius
         {
             get { return borderRadius; }
             set
             {
                 borderRadius = value;
-                topleftBorderRadius = value;
-                toprighttBorderRadius = value;
-                bottomleftBorderRadius = value;
-                bottomrightBorderRadius = value;
-                useDifferentRadius = false;
-
                 Invalidate();
             }
         }
@@ -169,20 +179,22 @@ namespace MyMax.WinformsBootstrap.Controls
             set
             {
                 style = value;
-                BackColor = colorStyles[((int)value)].BackColor;
-                ForeColor = colorStyles[((int)value)].ForeColor;
+                if (solid)
+                {
+                    BackColor = colorStyles[((int)value)].BackColor;
+                    ForeColor = colorStyles[((int)value)].ForeColor;
+                }
+                else
+                {
+                    BackColor = DefaultStyles.ContainerBackcolor;
+                    ForeColor = colorStyles[((int)value)].BackColor;
+                    borderColor = colorStyles[((int)value)].BackColor;
+                }
                 Invalidate();
             }
         }
 
-        public void SetBorderRadius(int topLeft, int topRight, int bottomLeft, int bottomRight)
-        {
-            useDifferentRadius = true;
-            topleftBorderRadius = topLeft;
-            toprighttBorderRadius = topRight;
-            bottomleftBorderRadius = bottomLeft;
-            bottomrightBorderRadius = bottomRight;
-        }
+        #endregion
 
         /// <summary>
         /// Constructor
@@ -195,6 +207,9 @@ namespace MyMax.WinformsBootstrap.Controls
             BackColor = SystemColors.ControlDark;
             ForeColor = Color.White;
             Cursor = Cursors.Hand;
+            Font = new Font("Segoe UI", 8, FontStyle.Regular);
+
+            BorderRadius = new BorderRadius() { All = 5 };
 
             iconSize = 16;
             iconColor = Color.Black;
@@ -203,8 +218,7 @@ namespace MyMax.WinformsBootstrap.Controls
             TextAlign = ContentAlignment.MiddleCenter;
             ImageAlign = ContentAlignment.MiddleLeft;
             TextImageRelation = TextImageRelation.Overlay;
-
-            Resize += new EventHandler(Button_Resize);
+            this.Resize += Button_Resize;
 
             colorStyles.Add(new ColorStyle() { BackColor = Color.FromArgb(14, 109, 253), ForeColor = Color.White });
             colorStyles.Add(new ColorStyle() { BackColor = Color.FromArgb(108, 117, 125), ForeColor = Color.White });
@@ -217,6 +231,7 @@ namespace MyMax.WinformsBootstrap.Controls
             colorStyles.Add(new ColorStyle() { BackColor = Color.LightGray, ForeColor = Color.FromArgb(14, 109, 253) });
 
             Style = Styles.Primary;
+            Solid = true;
 
         }
 
@@ -227,55 +242,46 @@ namespace MyMax.WinformsBootstrap.Controls
         /// <param name="e"></param>
         private void Button_Resize(object sender, EventArgs e)
         {
-            if (borderRadius > this.Height)
-                borderRadius = this.Height;
+            Refresh();
         }
 
-        //Methods
-        private GraphicsPath GetFigurePath(Rectangle rect, float radius)
+
+        /// <summary>
+        /// Create a rounded figure path
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        private GraphicsPath GetFigurePath(Rectangle rect)
         {
             GraphicsPath path = new GraphicsPath();
+            float factor = 2F;
 
-            if (useDifferentRadius)
+            path.StartFigure();
+            if (BorderRadius.TopLeft > 0)
             {
-                float curveSize = radius * 2F;
-
-                path.StartFigure();
-                if (topleftBorderRadius == 0)
-                    path.AddLine(new PointF(rect.X, rect.Y), new PointF(rect.X + curveSize, rect.Y));
-                else
-                    path.AddArc(rect.X, rect.Y, curveSize, curveSize, 180, 90);
-
-                if (toprighttBorderRadius == 0)
-                    path.AddLine(new PointF(rect.Right - curveSize, rect.Y), new PointF(rect.Right, rect.Y));
-                else
-                    path.AddArc(rect.Right - curveSize, rect.Y, curveSize, curveSize, 270, 90);
-
-                if (bottomrightBorderRadius == 0)
-                    path.AddLine(new PointF(rect.Right, rect.Bottom - curveSize), new PointF(rect.Right, rect.Bottom));
-                else
-                    path.AddArc(rect.Right - curveSize, rect.Bottom - curveSize, curveSize, curveSize, 0, 90);
-
-                if (bottomleftBorderRadius == 0)
-                    path.AddLine(new PointF(rect.X + curveSize, rect.Bottom), new PointF(rect.X, rect.Bottom));
-                else
-                    path.AddArc(rect.X, rect.Bottom - curveSize, curveSize, curveSize, 90, 90);
-
-                path.CloseFigure();
-            }
-            else
-            {
-                float curveSize = radius * 2F;
-
-                path.StartFigure();
+                float curveSize = BorderRadius.TopLeft * factor;
                 path.AddArc(rect.X, rect.Y, curveSize, curveSize, 180, 90);
-                path.AddArc(rect.Right - curveSize, rect.Y, curveSize, curveSize, 270, 90);
-                path.AddArc(rect.Right - curveSize, rect.Bottom - curveSize, curveSize, curveSize, 0, 90);
-                path.AddArc(rect.X, rect.Bottom - curveSize, curveSize, curveSize, 90, 90);
-                path.CloseFigure();
             }
-            
-            
+
+            if (BorderRadius.TopRight > 0)
+            {
+                float curveSize = BorderRadius.TopRight * factor;
+                path.AddArc(rect.Right - curveSize, rect.Y, curveSize, curveSize, 270, 90);
+            }
+
+            if (BorderRadius.BottomRight > 0)
+            {
+                float curveSize = BorderRadius.BottomRight * factor;
+                path.AddArc(rect.Right - curveSize, rect.Bottom - curveSize, curveSize, curveSize, 0, 90);
+            }
+
+            if (BorderRadius.BottomLeft >= 0)
+            {
+                float curveSize = BorderRadius.BottomLeft * factor;
+                path.AddArc(rect.X, rect.Bottom - curveSize, curveSize, curveSize, 90, 90);
+            }
+            path.CloseFigure();
+
             return path;
         }
 
@@ -283,37 +289,30 @@ namespace MyMax.WinformsBootstrap.Controls
         {
             base.OnPaint(pevent);
 
-            Rectangle rectSurface = this.ClientRectangle;
+            Rectangle rectSurface = ClientRectangle;
             Rectangle rectBorder = Rectangle.Inflate(rectSurface, -borderSize, -borderSize);
             int smoothSize = 2;
             if (borderSize > 0)
                 smoothSize = borderSize;
 
-            if (borderRadius > 2) //Rounded button
+            if (BorderRadius.All != 0)
             {
-                using (GraphicsPath pathSurface = GetFigurePath(rectSurface, borderRadius))
-                using (GraphicsPath pathBorder = GetFigurePath(rectBorder, borderRadius - borderSize))
-                using (Pen penSurface = new Pen(Parent.BackColor, smoothSize))
+                using (GraphicsPath pathSurface = GetFigurePath(rectSurface))
+                using (GraphicsPath pathBorder = GetFigurePath(rectBorder))
+                using (Pen penSurface = new Pen(BackColor, smoothSize))
                 using (Pen penBorder = new Pen(borderColor, borderSize))
                 {
                     pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                    //Button surface
-                    this.Region = new Region(pathSurface);
-                    //Draw surface border for HD result
+                    Region = new Region(pathSurface);
                     pevent.Graphics.DrawPath(penSurface, pathSurface);
-
-                    //Button border                    
                     if (borderSize >= 1)
-                        //Draw control border
                         pevent.Graphics.DrawPath(penBorder, pathBorder);
                 }
             }
-            else //Normal button
+            else
             {
                 pevent.Graphics.SmoothingMode = SmoothingMode.None;
-                //Button surface
                 this.Region = new Region(rectSurface);
-                //Button border
                 if (borderSize >= 1)
                 {
                     using (Pen penBorder = new Pen(borderColor, borderSize))
@@ -323,6 +322,7 @@ namespace MyMax.WinformsBootstrap.Controls
                     }
                 }
             }
+
 
             // For children controls
             foreach (Control item in Controls)
