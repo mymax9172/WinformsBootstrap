@@ -17,18 +17,17 @@ namespace Test
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            buttonControl1.BorderRadius.All = 0;
-            buttonControl1.Refresh();
-        }
-
-        private void buttonControl1_Click(object sender, EventArgs e)
+       private void buttonControl1_Click(object sender, EventArgs e)
         {
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonControl35_Click(object sender, EventArgs e)
         {
 
         }

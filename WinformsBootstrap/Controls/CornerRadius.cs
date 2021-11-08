@@ -10,7 +10,7 @@ namespace MyMax.WinformsBootstrap.Controls
     /// <summary>
     /// Define border radius for bootstrap controls
     /// </summary>
-    public class BorderRadius
+    public class CornerRadius
     {
         /// <summary>
         /// Top-left corner border radius
@@ -58,7 +58,7 @@ namespace MyMax.WinformsBootstrap.Controls
         /// Set/Get all bottom corners radius equals, return -1 if radius are different
         /// </summary>
         [Browsable(false)]
-        public int BottomBorders
+        public int BottomCorners
         {
             get
             {
@@ -79,7 +79,7 @@ namespace MyMax.WinformsBootstrap.Controls
         /// Set/Get all top corners radius equals, return -1 if radius are different
         /// </summary>
         [Browsable(false)]
-        public int TopBorders
+        public int TopCorners
         {
             get
             {
@@ -95,6 +95,49 @@ namespace MyMax.WinformsBootstrap.Controls
                 TopRight = value;
             }
         }
+
+        /// <summary>
+        /// Set/Get all right corners radius equals, return -1 if radius are different
+        /// </summary>
+        [Browsable(false)]
+        public int RightCorners
+        {
+            get
+            {
+                if (BottomRight == TopRight)
+                    return BottomRight;
+                else
+                    return -1;
+            }
+
+            set
+            {
+                BottomRight = value;
+                TopRight = value;
+            }
+        }
+
+        /// <summary>
+        /// Set/Get all left corners radius equals, return -1 if radius are different
+        /// </summary>
+        [Browsable(false)]
+        public int LeftCorners
+        {
+            get
+            {
+                if (BottomLeft == TopLeft)
+                    return BottomLeft;
+                else
+                    return -1;
+            }
+
+            set
+            {
+                BottomLeft = value;
+                TopLeft = value;
+            }
+        }
+
     }
 
 }

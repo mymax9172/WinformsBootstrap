@@ -45,13 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\BorderRadius.cs" />
+    <Compile Include="Controls\CornerRadius.cs" />
     <Compile Include="Controls\ButtonControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\ContainerControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\GroupControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ICorner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DefaultStyles.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />

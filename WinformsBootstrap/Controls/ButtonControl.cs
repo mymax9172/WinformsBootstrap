@@ -27,11 +27,11 @@ namespace MyMax.WinformsBootstrap.Controls
     /// Author: Agostinoni Massimiliano
     /// Credits: RJ Code Advance
     /// </summary>
-    public class ButtonControl : System.Windows.Forms.Button
+    public class ButtonControl : System.Windows.Forms.Button, ICorner
     {
         // Internal members
         int borderSize = 0;
-        private BorderRadius borderRadius;
+        private CornerRadius cornerRadius;
         bool solid = true;
 
         Color borderColor = Color.Black;
@@ -145,16 +145,16 @@ namespace MyMax.WinformsBootstrap.Controls
         /// Border radius of the control
         /// </summary>
         [Category("Winforms Bootstrap")]
-        [Description("Radius of the border corners")]
+        [Description("Radius of corners")]
         [TypeConverter(typeof(System.ComponentModel.ExpandableObjectConverter))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Browsable(true)]
-        public BorderRadius BorderRadius
+        public CornerRadius CornerRadius
         {
-            get { return borderRadius; }
+            get { return cornerRadius; }
             set
             {
-                borderRadius = value;
+                cornerRadius = value;
                 Invalidate();
             }
         }
@@ -209,7 +209,7 @@ namespace MyMax.WinformsBootstrap.Controls
             Cursor = Cursors.Hand;
             Font = new Font("Segoe UI", 8, FontStyle.Regular);
 
-            BorderRadius = new BorderRadius() { All = 5 };
+            CornerRadius = new CornerRadius() { All = 5 };
 
             iconSize = 16;
             iconColor = Color.Black;
@@ -257,29 +257,38 @@ namespace MyMax.WinformsBootstrap.Controls
             float factor = 2F;
 
             path.StartFigure();
-            if (BorderRadius.TopLeft > 0)
+            if (CornerRadius.TopLeft > 0)
             {
-                float curveSize = BorderRadius.TopLeft * factor;
+                float curveSize = CornerRadius.TopLeft * factor;
                 path.AddArc(rect.X, rect.Y, curveSize, curveSize, 180, 90);
             }
+            else
+                path.AddLine(new PointF(rect.X, rect.Y), new PointF(rect.X, rect.Y));
 
-            if (BorderRadius.TopRight > 0)
+            if (CornerRadius.TopRight > 0)
             {
-                float curveSize = BorderRadius.TopRight * factor;
+                float curveSize = CornerRadius.TopRight * factor;
                 path.AddArc(rect.Right - curveSize, rect.Y, curveSize, curveSize, 270, 90);
             }
+            else
+                path.AddLine(new PointF(rect.Right, rect.Y), new PointF(rect.Right, rect.Y));
 
-            if (BorderRadius.BottomRight > 0)
+            if (CornerRadius.BottomRight > 0)
             {
-                float curveSize = BorderRadius.BottomRight * factor;
+                float curveSize = CornerRadius.BottomRight * factor;
                 path.AddArc(rect.Right - curveSize, rect.Bottom - curveSize, curveSize, curveSize, 0, 90);
             }
+            else
+                path.AddLine(new PointF(rect.Right, rect.Bottom), new PointF(rect.Right, rect.Bottom));
 
-            if (BorderRadius.BottomLeft >= 0)
+            if (CornerRadius.BottomLeft >= 0)
             {
-                float curveSize = BorderRadius.BottomLeft * factor;
+                float curveSize = CornerRadius.BottomLeft * factor;
                 path.AddArc(rect.X, rect.Bottom - curveSize, curveSize, curveSize, 90, 90);
             }
+            else
+                path.AddLine(new PointF(rect.X, rect.Bottom), new PointF(rect.X, rect.Bottom));
+
             path.CloseFigure();
 
             return path;
@@ -295,7 +304,7 @@ namespace MyMax.WinformsBootstrap.Controls
             if (borderSize > 0)
                 smoothSize = borderSize;
 
-            if (BorderRadius.All != 0)
+            if (CornerRadius.All != 0)
             {
                 using (GraphicsPath pathSurface = GetFigurePath(rectSurface))
                 using (GraphicsPath pathBorder = GetFigurePath(rectBorder))
@@ -334,7 +343,7 @@ namespace MyMax.WinformsBootstrap.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            this.Parent.BackColorChanged += new EventHandler(Container_BackColorChanged);
+            this.Parent.BackColorChanged += Container_BackColorChanged;
         }
 
         private void Container_BackColorChanged(object sender, EventArgs e)
