@@ -8,14 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Test
+namespace Sample
 {
-    public partial class Form1 : Form
+    public partial class PanesForm : Form
     {
-        public Form1()
+        public PanesForm()
         {
             InitializeComponent();
         }
-
     }
 }
