@@ -45,19 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\BorderStyle.cs" />
-    <Compile Include="Controls\ContainerStyle.cs" />
-    <Compile Include="Controls\CornerRadius.cs" />
-    <Compile Include="Controls\ButtonControl.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Controls\BootstrapControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ContainerControl.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Controls\BootstrapControl.Designer.cs">
+      <DependentUpon>BootstrapControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GroupControl.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Controls\Button.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ICorner.cs" />
+    <Compile Include="Controls\Button.Designer.cs">
+      <DependentUpon>Button.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core\ColorStyle.cs" />
     <Compile Include="Controls\Pane.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -75,6 +75,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\BootstrapControl.resx">
+      <DependentUpon>BootstrapControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Button.resx">
+      <DependentUpon>Button.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Pane.resx">
       <DependentUpon>Pane.cs</DependentUpon>
     </EmbeddedResource>

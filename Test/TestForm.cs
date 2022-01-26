@@ -7,15 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using MyMax.WinformsBootstrap.Controls;
 namespace Test
 {
-    public partial class Form1 : Form
+    public partial class TestForm : Form
     {
-        public Form1()
+        public TestForm()
         {
             InitializeComponent();
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //button5.Enabled = !button5.Enabled;
+            button6.Enabled = !button6.Enabled;
+        }
     }
 }

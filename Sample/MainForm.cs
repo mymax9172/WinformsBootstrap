@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Sample
@@ -17,9 +10,9 @@ namespace Sample
             InitializeComponent();
         }
 
-        private void buttonPanes_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            new PanesForm().Show();
+            new ButtonForm().ShowDialog();
         }
     }
 }

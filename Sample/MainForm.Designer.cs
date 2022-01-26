@@ -4,14 +4,14 @@ namespace Sample
     partial class MainForm
     {
         /// <summary>
-        /// Variabile di progettazione necessaria.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Pulire le risorse in uso.
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">ha valore true se le risorse gestite devono essere eliminate, false in caso contrario.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -21,42 +21,42 @@ namespace Sample
             base.Dispose(disposing);
         }
 
-        #region Codice generato da Progettazione Windows Form
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// Metodo necessario per il supporto della finestra di progettazione. Non modificare
-        /// il contenuto del metodo con l'editor di codice.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonPanes = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // buttonPanes
+            // button1
             // 
-            this.buttonPanes.Location = new System.Drawing.Point(40, 106);
-            this.buttonPanes.Name = "buttonPanes";
-            this.buttonPanes.Size = new System.Drawing.Size(93, 30);
-            this.buttonPanes.TabIndex = 0;
-            this.buttonPanes.Text = "Panes";
-            this.buttonPanes.UseVisualStyleBackColor = true;
-            this.buttonPanes.Click += new System.EventHandler(this.buttonPanes_Click);
+            this.button1.Location = new System.Drawing.Point(36, 42);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(93, 31);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Buttons";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.buttonPanes);
+            this.ClientSize = new System.Drawing.Size(421, 418);
+            this.Controls.Add(this.button1);
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "WinformBoostrpa Sample page";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button buttonPanes;
+        private System.Windows.Forms.Button button1;
     }
 }
-
